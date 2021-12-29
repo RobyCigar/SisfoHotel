@@ -24,7 +24,14 @@ class UpdateCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|string|max:50',
+            'email' => 'required|string|email|max:100',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'country' => 'required|string|max:50',
+            'check_in' => 'required|date',
+            'check_out' => 'required|date',
+            'total_price' => 'required|integer',
         ];
     }
 }

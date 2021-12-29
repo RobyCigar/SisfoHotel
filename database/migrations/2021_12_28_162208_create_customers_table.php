@@ -19,7 +19,7 @@ class CreateCustomersTable extends Migration
             $table->string('email', 100);
             $table->string('phone', 20);
             $table->string('address', 255);
-            $table->string('country', 15);
+            $table->string('country', 50);
             $table->date('check_in');
             $table->date('check_out');
             $table->integer('total_price');

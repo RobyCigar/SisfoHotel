@@ -19,7 +19,7 @@ class CustomerController extends Controller
         Paginator::useBootstrap();
         $customers = Customer::paginate(5);
 
-        return view('hotel.index', compact('customers'));
+        return view('customers.index', compact('customers'));
     }
 
     /**
@@ -29,7 +29,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('hotel.create');
+        return view('customers.create');
     }
 
     /**
@@ -40,62 +40,63 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
-        $hotel = new Customer;
-        $hotel->name = $request->name;
-        $hotel->address = $request->address;
-        $hotel->save();
+        try {
+            Customer::create($request->all());
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
 
-        return redirect()->route('hotel.index')->with('success', 'Customer created successfully');
+        return redirect()->route('customer.index')->with('success', 'Customer created successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Customer  $hotel
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $hotel)
+    public function show(Customer $customer)
     {
-        return view('hotel.show', compact('hotel'));
+        return view('customers.show', compact('customer'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Customer  $hotel
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $hotel)
+    public function edit(Customer $customer)
     {
-        return view('hotel.edit', compact('hotel'));
+        return view('customers.edit', compact('customer'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateCustomerRequest  $request
-     * @param  \App\Models\Customer  $hotel
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCustomerRequest $request, Customer $hotel)
+    public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        $hotel->name = $request->name;
-        $hotel->address = $request->address;
-        $hotel->save();
+        $customer->name = $request->name;
+        $customer->address = $request->address;
+        $customer->save();
 
-        return redirect()->route('hotel.index')->with('success', 'Customer updated successfully');
+        return redirect()->route('customer.index')->with('success', 'Customer updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Customer  $hotel
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $hotel)
+    public function destroy(Customer $customer)
     {
-        $hotel->delete();
+        $customer->delete();
 
-        return redirect()->route('hotel.index')->with('success', 'Customer deleted successfully');
+        return redirect()->route('customer.index')->with('success', 'Customer deleted successfully');
     }
 }
