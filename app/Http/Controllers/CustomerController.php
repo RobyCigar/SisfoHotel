@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use Illuminate\Pagination\Paginator;
 use App\Models\Customer;
+use Symfony\Component\ErrorHandler\Debug;
 
 class CustomerController extends Controller
 {
@@ -18,7 +19,7 @@ class CustomerController extends Controller
     {
         Paginator::useBootstrap();
         $customers = Customer::paginate(5);
-
+        
         return view('customers.index', compact('customers'));
     }
 
