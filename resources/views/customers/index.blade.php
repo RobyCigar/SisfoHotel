@@ -35,8 +35,8 @@
                                     <tr>
                                         <td>{{$customer->name}}</td>
                                         <td>{{$customer->email}}</td>
-                                        <td>{{$customer->check_in->diffForHumans()}}</td>
-                                        <td>{{$customer->check_out->diffForHumans()}}</td>
+                                        <td>{{\Carbon\Carbon::parse($customer->check_in)->diffForHumans()}}</td>
+                                        <td>{{\Carbon\Carbon::parse($customer->check_out)->diffForHumans()}}</td>
                                         <td>
                                             <form action="{{ route('customer.destroy', $customer->id) }}" method="POST">   
                                                 <a class="btn btn-info" href="{{ route('customer.show', $customer->id) }}">Show</a>    
