@@ -6,7 +6,6 @@ use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use Illuminate\Pagination\Paginator;
 use App\Models\Customer;
-use Symfony\Component\ErrorHandler\Debug;
 
 class CustomerController extends Controller
 {

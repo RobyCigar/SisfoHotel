@@ -1,7 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\{
+    CustomerController, 
+    TransactionController,
+    HomeController,
+    RoomController,
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +19,12 @@ use App\Http\Controllers\CustomerController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::resource('/customer', CustomerController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::resource('/customer', CustomerController::class)->middleware('is_admin');
+    Route::resource('/transaction', TransactionController::class)->only(['index', 'show'])->middleware('is_admin');
+    Route::resource('/rooms', RoomController::class)->only(['create', 'store', 'show']);
+});
