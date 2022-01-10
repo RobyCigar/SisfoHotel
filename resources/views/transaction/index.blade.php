@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title')
     Halaman Payment
@@ -6,13 +6,13 @@
 
 @section('content')
     <div class="container pb-5 pt-5">
-        <div class="row">
-            <div class="col-12">
+        <div class="d-flex justify-content-center row">
+            <div class="col-8">
                 <div class="card shadow">
                     <div class="table-responsive">
                         <table class="table table-hover table-condensed">
                             <thead class="thead-light">
-                                <th scope="col">#</th>
+                                <th scope="col">No</th>
                                 <th scope="col">Total Harga</th>
                                 <th scope="col">Status Pembayaran</th>
                                 <th scope="col"></th>
@@ -20,7 +20,7 @@
                             <tbody>
                                 @forelse ($transactions as $transaction)
                                     <tr>
-                                        <td>#{{ $transaction->id }}</td>
+                                        <td>{{ $transaction->id }}</td>
                                         <td>{{ number_format($transaction->total_price, 2, ',', '.') }}</td>
                                         <td>
                                             @if ($transaction->payment_status == 1)

@@ -1,12 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="d-flex justify-content-center">    
-    @if ($transaction->payment_status == 1)
-    <button class="btn btn-primary" id="pay-button">Bayar Sekarang</button>
-    @else
-        Pembayaran berhasil
-    @endif
+    <div class="d-flex justify-content-center">
+        <div class="col-md-4 col-10">
+            <div class="card">
+                <div class="card-header">
+                    Konfirmasi Pembayaran
+                </div>
+                <div class="card-body">
+                <p>
+                    Nama Pemesan: {{$transaction->user->name}}
+                    <br>
+                    Email: {{$transaction->user->email}}
+                    <br>
+                    Nama Kamar: {{$transaction->room->name}}
+                    <br>
+                    Tipe: {{$transaction->room->type}}
+                    <br>
+                    Harga: {{$transaction->room->price}}
+                    <br>
+                    Kapasitas: {{$transaction->room->capacity}}
+                    <br>
+                    Check In: {{$transaction->check_in}}
+                    <br>
+                    Check Out: {{$transaction->check_out}}    
+                </p>
+                </div>
+                <div class="card-footer">
+                        @if ($transaction->payment_status == 1)
+                        <button class="btn btn-primary" id="pay-button">Bayar Sekarang</button>
+                        @else
+                            Pembayaran berhasil
+                        @endif
+                </div>
+            </div>    
+        
+        </div> 
+
     </div>
 
 

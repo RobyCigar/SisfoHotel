@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Room, Transaction, Customer, User};
+use App\Models\{Room, Transaction, User};
+use Illuminate\Support\Facades\{Hash, DB};
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,16 +16,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(1)->create();
-        // Customer::factory(3)->create()->each(function ($customer) {
-        //     Room::factory(rand(1, 3))->create()->each(function ($room) use ($customer) {
-        //         Transaction::factory(rand(1, 3))->create([
-        //             'customer_id' => $customer->id,
-        //             'room_id' => $room->id,
-        //             'total_price' => $room->price,
-        //             'payment_status' => rand(1, 4),
-        //         ]);
-        //     });
-        // });
+        DB::table('users')->insert([
+            'name' => 'zenitsu',
+            'email' => 'zenitsu@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('zenitsu'),
+            'role' => 1,
+            'remember_token' => Str::random(10),
+        ]);
+
+        User::factory(3)->create()->each(function ($user) {
+            Room::factory(rand(1, 3))->create()->each(function ($room) use ($user) {
+                Transaction::factory(rand(1, 3))->create([
+                    'user_id' => $user->id,
+                    'room_id' => $room->id,
+                    'check_in' => now()->addDays(rand(1, 10)),
+                    'check_out' => now()->addDays(rand(11, 20)),
+                    'total_price' => $room->price,
+                    'payment_status' => rand(1, 4),
+                ]);
+            });
+        });
     }
 }

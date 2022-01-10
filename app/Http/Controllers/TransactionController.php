@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\Midtrans\CreateSnapTokenService;
-use App\Models\Transaction;
+use App\Models\{ Transaction, Room };
 
 class TransactionController extends Controller
 {
@@ -25,9 +25,14 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Room $room)
     {
-        //
+        $user = auth()->user();
+
+        return view('transaction.create', [
+            'room' => $room,
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -38,7 +43,31 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        // dd(auth()->user());
+        // make validation 
+        $this->validate($request, [
+            'room_id' => 'required',
+            'check_in' => 'required',
+            'check_out' => 'required',
+        ]);
+
+        try {
+            $transaction = Transaction::create([
+                'user_id' => auth()->user()->id,
+                'room_id' => $request->room_id,
+                'total_price' => $request->total_price,
+                'payment_status' => 1,
+                'check_in' => $request->check_in,
+                'check_out' => $request->check_out,
+            ]);
+            // dd($transaction);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('transaction.show', $transaction->id);
     }
 
     /**
@@ -49,6 +78,9 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
+        $transaction->load('room');
+        $res = $transaction->load('user');
+        
         $snapToken = $transaction->snap_token;
 
         if(empty($snapToken)) {

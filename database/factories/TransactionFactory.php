@@ -14,7 +14,7 @@ class TransactionFactory extends Factory
     public function definition()
     {
         return [
-            'customer_id' => $this->faker->numberBetween(1, 10),
+            'user_id' => $this->faker->numberBetween(1, 10),
             'room_id' => $this->faker->numberBetween(1, 10),
             'total_price' => $this->faker->numberBetween(25000, 200000),
             'payment_status' => 1,

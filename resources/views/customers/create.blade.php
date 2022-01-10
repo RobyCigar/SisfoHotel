@@ -53,7 +53,8 @@
                 <input type="number" name="total_price" id="total_price" class="form-control">
             </div>
             <button class="btn btn-primary mt-3">Submit</button>
-            <div
+            
+        </div>
     </form>
 </div>
 </div>

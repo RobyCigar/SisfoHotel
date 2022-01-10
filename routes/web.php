@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    CustomerController, 
+    UserController, 
     TransactionController,
     HomeController,
     RoomController,
@@ -24,7 +24,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('/customer', CustomerController::class)->middleware('is_admin');
-    Route::resource('/transaction', TransactionController::class)->only(['index', 'show'])->middleware('is_admin');
+    Route::resource('/user', UserController::class)->middleware('is_admin');
+    Route::resource('/transaction', TransactionController::class)->only(['index'])->middleware('is_admin');
+    Route::resource('/transaction', TransactionController::class)->only(['show', 'store']);
+    Route::get('transaction/create/{room}', [TransactionController::class, 'create'])->name('transaction.create');
     Route::resource('/rooms', RoomController::class)->only(['create', 'store', 'show']);
 });
