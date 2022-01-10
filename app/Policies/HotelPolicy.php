@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Customer;
+use App\Models\Hotel;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CustomerPolicy
+class HotelPolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class CustomerPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Customer  $hotel
+     * @param  \App\Models\Hotel  $hotel
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Customer $hotel)
+    public function view(User $user, Hotel $hotel)
     {
         //
     }
@@ -48,10 +48,10 @@ class CustomerPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Customer  $hotel
+     * @param  \App\Models\Hotel  $hotel
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Customer $hotel)
+    public function update(User $user, Hotel $hotel)
     {
         //
     }
@@ -60,10 +60,10 @@ class CustomerPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Customer  $hotel
+     * @param  \App\Models\Hotel  $hotel
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Customer $hotel)
+    public function delete(User $user, Hotel $hotel)
     {
         //
     }
@@ -72,10 +72,10 @@ class CustomerPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Customer  $hotel
+     * @param  \App\Models\Hotel  $hotel
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Customer $hotel)
+    public function restore(User $user, Hotel $hotel)
     {
         //
     }
@@ -84,10 +84,10 @@ class CustomerPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Customer  $hotel
+     * @param  \App\Models\Hotel  $hotel
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Customer $hotel)
+    public function forceDelete(User $user, Hotel $hotel)
     {
         //
     }

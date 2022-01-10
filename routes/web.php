@@ -20,13 +20,18 @@ use App\Http\Controllers\{
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/room/{room}', [RoomController::class, 'show'])->name('room.show');
 
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('/user', UserController::class)->middleware('is_admin');
-    Route::resource('/transaction', TransactionController::class)->only(['index'])->middleware('is_admin');
+    Route::resource('/user', UserController::class)->middleware('is_admin')->except('index');
     Route::resource('/transaction', TransactionController::class)->only(['show', 'store']);
     Route::get('transaction/create/{room}', [TransactionController::class, 'create'])->name('transaction.create');
-    Route::resource('/rooms', RoomController::class)->only(['create', 'store', 'show']);
+    
+    Route::prefix('dashboard')->group(function () {
+        Route::resource('/room', RoomController::class)->only(['index', 'create', 'store', 'destroy'])->middleware(['is_admin']);
+        Route::resource('/transaction', TransactionController::class)->only(['index'])->middleware('is_admin');
+        Route::get('user', [UserController::class, 'index'])->name('user.index');
+    });
 });

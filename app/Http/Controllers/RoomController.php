@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Room;
+use App\Http\Requests\RoomRequest;
+use Illuminate\Pagination\Paginator;
 
 class RoomController extends Controller
 {
@@ -14,7 +16,9 @@ class RoomController extends Controller
      */
     public function index()
     {
-        //
+        Paginator::useBootstrap();
+        $rooms = Room::paginate(5);
+        return view('room.index', compact('rooms'));
     }
 
     /**
@@ -24,7 +28,7 @@ class RoomController extends Controller
      */
     public function create()
     {
-        //
+        return view('room.create');
     }
 
     /**
@@ -33,9 +37,29 @@ class RoomController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoomRequest $request)
     {
-        //
+        try {
+            if($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $image->storeAs('public/images', $imageName, 's3');
+            }
+            Room::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'type' => $request->type,
+                'capacity' => $request->capacity,
+                'image' => $imageName ?? null,
+            ]);
+
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('room.index')->with('success', 'Room created successfully');
     }
 
     /**
@@ -78,8 +102,9 @@ class RoomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Room $room)
     {
-        //
+        $room->delete();
+        return redirect()->route('room.index')->with('success', 'Room deleted successfully');
     }
 }

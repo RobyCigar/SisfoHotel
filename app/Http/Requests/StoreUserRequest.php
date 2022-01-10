@@ -29,9 +29,6 @@ class StoreUserRequest extends FormRequest
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:255',
             'country' => 'required|string|max:50',
-            'check_in' => 'required|date',
-            'check_out' => 'required|date',
-            'total_price' => 'required|integer',
         ];
     }
 }

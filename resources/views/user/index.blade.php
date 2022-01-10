@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
 <div class="container">
@@ -12,12 +12,12 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h4 class="card-title">Daftar Customer</h4>
+                                <h4 class="card-title">Daftar User</h4>
                                 <p class="card-description"> Hotel OYO Jl Magelang KM 9</p>
                             </div>
-                            <div>
-                                <a href="{{route('customer.create')}}" class="btn btn-primary">Tambah Customer</a>
-                            </div>
+                            {{-- <div>
+                                <a href="{{route('user.create')}}" class="btn btn-primary">Tambah User</a>
+                            </div> --}}
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -25,22 +25,22 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Check In</th>
-                                        <th>Check Out</th>
+                                        <th>Created At</th>
+                                        <th>Updated At</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($customers as $customer)
+                                    @foreach($users as $user)
                                     <tr>
-                                        <td>{{$customer->name}}</td>
-                                        <td>{{$customer->email}}</td>
-                                        <td>{{\Carbon\Carbon::parse($customer->check_in)->diffForHumans()}}</td>
-                                        <td>{{\Carbon\Carbon::parse($customer->check_out)->diffForHumans()}}</td>
+                                        <td>{{$user->name}}</td>
+                                        <td>{{$user->email}}</td>
+                                        <td>{{\Carbon\Carbon::parse($user->created_at)->diffForHumans()}}</td>
+                                        <td>{{\Carbon\Carbon::parse($user->updated_at)->diffForHumans()}}</td>
                                         <td>
-                                            <form action="{{ route('customer.destroy', $customer->id) }}" method="POST">   
-                                                <a class="btn btn-info" href="{{ route('customer.show', $customer->id) }}">Show</a>    
-                                                <a class="btn btn-primary" href="{{ route('customer.edit', $customer->id) }}">Edit</a>   
+                                            <form action="{{ route('user.destroy', $user->id) }}" method="POST">   
+                                                <a class="btn btn-info" href="{{ route('user.show', $user->id) }}">Show</a>    
+                                                <a class="btn btn-primary" href="{{ route('user.edit', $user->id) }}">Edit</a>   
                                                 @csrf
                                                 @method('DELETE')      
                                                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -50,7 +50,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{ $customers->links() }}
+                            {{ $users->links() }}
                         </div>
                     </div>
         </div>

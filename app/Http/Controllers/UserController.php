@@ -19,7 +19,7 @@ class UserController extends Controller
         Paginator::useBootstrap();
         $users = User::paginate(5);
         
-        return view('users.index', compact('users'));
+        return view('user.index', compact('users'));
     }
 
     /**
@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('user.create');
     }
 
     /**
@@ -57,7 +57,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        $user->load('transaction');
+        $user->load('room');
+        dd($user);
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -68,7 +71,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -80,9 +83,14 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->name = $request->name;
-        $user->address = $request->address;
-        $user->save();
+        try {
+            // dd($request->all());
+            $user->update($request->all());
+            $user->save();
+            // dd($user);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
 
         return redirect()->route('user.index')->with('success', 'User updated successfully');
     }

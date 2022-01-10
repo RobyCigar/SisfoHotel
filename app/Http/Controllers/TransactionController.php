@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\Midtrans\CreateSnapTokenService;
 use App\Models\{ Transaction, Room };
+use Illuminate\Pagination\Paginator;
 
 class TransactionController extends Controller
 {
@@ -15,7 +16,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::all();
+        Paginator::useBootstrap();
+        $transactions = Transaction::paginate(5);
 
         return view('transaction.index', compact('transactions'));
     }
