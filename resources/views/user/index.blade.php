@@ -15,9 +15,14 @@
                                 <h4 class="card-title">Daftar User</h4>
                                 <p class="card-description"> Hotel OYO Jl Magelang KM 9</p>
                             </div>
-                            {{-- <div>
-                                <a href="{{route('user.create')}}" class="btn btn-primary">Tambah User</a>
-                            </div> --}}
+                            <form action="" method="GET" class="my-3">
+                                <div class="input-group">
+                                    <input name="search" type="text" class="form-control" placeholder="Search">
+                                    <button type="button input-group-text" class="btn btn-primary">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped">

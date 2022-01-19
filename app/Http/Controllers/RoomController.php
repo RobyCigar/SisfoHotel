@@ -14,10 +14,19 @@ class RoomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         Paginator::useBootstrap();
-        $rooms = Room::paginate(5);
+        if ($request->has('search')) {
+            $query = $request->search;
+            $rooms = Room::query()
+                ->where('name', 'LIKE', "%{$query}%")
+                ->orWhere('description', 'LIKE', "%{$query}%")
+                ->paginate(5);
+        } else {
+            $rooms = Room::paginate(5);
+        }
+
         return view('room.index', compact('rooms'));
     }
 
@@ -51,12 +60,13 @@ class RoomController extends Controller
                 'price' => $request->price,
                 'type' => $request->type,
                 'capacity' => $request->capacity,
+                'total_room' => $request->total_room,
+                'available_room' => $request->available_room,
                 'image' => $imageName ?? null,
             ]);
 
         } catch (\Exception $e) {
-            dd($e);
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->withErrors($e->getMessage());
         }
 
         return redirect()->route('room.index')->with('success', 'Room created successfully');

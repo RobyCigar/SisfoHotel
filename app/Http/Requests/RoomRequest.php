@@ -29,6 +29,8 @@ class RoomRequest extends FormRequest
             'price' => 'required',
             'type' => 'required',
             'capacity' => 'required',
+            'total_room' => 'required',
+            'available_room' => 'required',
         ];
     }
 }

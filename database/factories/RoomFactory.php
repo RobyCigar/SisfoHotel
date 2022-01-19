@@ -16,10 +16,12 @@ class RoomFactory extends Factory
         return [
             'name' => $this->faker->name,
             'type' => $this->faker->randomElement(['single', 'double', 'triple']),
-            'price' => $this->faker->randomFloat(2, 100, 1000),
+            'price' => $this->faker->numberBetween(2, 9) * 1000,
             'description' => $this->faker->text,
             'image' => $this->faker->imageUrl(300, 300),
             'capacity' => $this->faker->numberBetween(1, 5),
+            'total_room' => $this->faker->numberBetween(8, 10),
+            'available_room' => $this->faker->numberBetween(1, 8),
         ];
     }
 }

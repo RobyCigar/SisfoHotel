@@ -11,7 +11,7 @@
         <div class="col-md-8">
             <a href="{{route('home')}}" class="btn btn-primary">Kembali</a>
             <div class="card my-3">
-                <div class="card-header">{{ $room->name ?? 'Kamar XXX' }}</div>
+                <div class="h5 card-header">{{ $room->name ?? 'Kamar XXX' }}</div>
 
                 <div class="card-body">
                     <div class="row">
@@ -21,11 +21,17 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            {{$room->name}}
                             <br>
                             Deskripsi: {{$room->description ?? "Lorem ipsum"}}
                             <br>
                             Kapasitas: {{$room->capacity ?? 0}}
+                            <br>
+                            Status: 
+                            @if ($room->available_room > 0)
+                                <span class="badge bg-primary">Tersedia</span>
+                            @else
+                                <span class="badge bg-warning">Tidak Tersedia</span>
+                            @endif
                             <br>
                             Tipe: {{$room->type ?? "Unknown"}}
                             <br>

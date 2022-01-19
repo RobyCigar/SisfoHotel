@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Pagination\Paginator;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -14,10 +15,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         Paginator::useBootstrap();
-        $users = User::paginate(5);
+        if ($request->has('search')) {
+            $query = $request->search;
+            $users = User::query()
+                ->where('name', 'LIKE', "%{$query}%")
+                ->orWhere('email', 'LIKE', "%{$query}%")
+                ->paginate(5);
+        } else {
+            $users = User::paginate(5);
+        }
         
         return view('user.index', compact('users'));
     }

@@ -14,10 +14,19 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         Paginator::useBootstrap();
-        $transactions = Transaction::paginate(5);
+        if($request->has('search')) {
+            $query = $request->search;
+            $transactions = Transaction::query()
+                ->where('name', 'LIKE', "%{$query}%")
+                ->orWhere('description', 'LIKE', "%{$query}%")
+                ->paginate(5);
+        } else {
+            $transactions = Transaction::paginate(5);
+        }
+
 
         return view('transaction.index', compact('transactions'));
     }
@@ -45,9 +54,6 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        // dd(auth()->user());
-        // make validation 
         $this->validate($request, [
             'room_id' => 'required',
             'check_in' => 'required',
@@ -55,6 +61,12 @@ class TransactionController extends Controller
         ]);
 
         try {
+            $room = Room::findOrFail($request->room_id);
+            if($room->available_room < 1) {
+                return redirect()->back()->withErrors(['Room is not available']);
+            }
+                $room->decrement('available_room');
+
             $transaction = Transaction::create([
                 'user_id' => auth()->user()->id,
                 'room_id' => $request->room_id,
@@ -83,10 +95,20 @@ class TransactionController extends Controller
         $transaction->load('room');
         $res = $transaction->load('user');
         
+        $params = (object) array(
+            'id' => $transaction->id,
+            'total_price' => $transaction->total_price,
+            'username' => $transaction->user->name,
+            'email' => $transaction->user->email,
+            'phone' => $transaction->user->phone,
+            'room_name' => $transaction->room->name,
+            'room_id' => $transaction->room->id,
+        );
+
         $snapToken = $transaction->snap_token;
 
         if(empty($snapToken)) {
-            $midtrans = new CreateSnapTokenService($transaction);
+            $midtrans = new CreateSnapTokenService($params);
             $snapToken = $midtrans->getSnapToken();
 
             $transaction->snap_token = $snapToken;

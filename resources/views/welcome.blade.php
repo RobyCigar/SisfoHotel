@@ -26,7 +26,7 @@
             <div class="col-md-4 col-sm-12">
                 <div class="card">
                     @if($room->image)
-                        <img height="200" style="object-fit: cover" class="card-img-top" src="{{'s3://elasticbeanstalk-ap-southeast-1-706392294781/public/images/'.$room->image}}" alt="Card image cap">
+                        <img height="200" style="object-fit: cover" class="card-img-top" src="{{$room->image}}" alt="Card image cap">
                     @else
                         <img height="200" style="object-fit: cover" src="https://source.unsplash.com/random/300x300?sig={{$loop->iteration}}" />
                     @endif

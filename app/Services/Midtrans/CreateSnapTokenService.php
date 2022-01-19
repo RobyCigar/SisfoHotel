@@ -4,6 +4,20 @@ namespace App\Services\Midtrans;
 
 use Midtrans\Snap;
 
+/**
+ * @params: array $params
+ * @return: string
+ * $params = [
+ *  'id',
+ *  'total_price'
+ *  'username',
+ *  'email',
+ *  'phone',
+ *  'room_name'
+ *  'room_id'
+ * ] 
+ */
+
 class CreateSnapTokenService extends Midtrans {
     
     protected $order;
@@ -17,27 +31,25 @@ class CreateSnapTokenService extends Midtrans {
 
     public function getSnapToken() {
         $this->_configureMidtrans();
-
-        // dd($this->order);
+        // dd((int)$this->order->total_price);
         $params = [
             'transaction_details' => [
                 'order_id' => $this->order->id,
-                'gross_amount' => $this->order->total_price,
+                'gross_amount' => (int) $this->order->total_price,
             ],
             'item_details' => [
                 [
-                    'id' => 1,
-                    'price' => '150000',
+                    'id' => $this->order->room_id,
+                    'price' => $this->order->total_price,
                     'quantity' => 1,
-                    'name' => 'Kamar Single Bed',
+                    'name' => (int) $this->order->room_name,
                 ],
             ],
             'customer_details' => [
-                'first_name' => 'Rabih UTomo',
-                'email' => 'rabihutomo11@gmail.com',
-                'phone' => '085726394401',
+                'first_name' => $this->order->username,
+                'email' => $this->order->email,
+                'phone' => $this->order->phone ?? '085726394401',
             ],
-            'order_id' => $this->order->number,
         ];
 
 

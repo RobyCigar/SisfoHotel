@@ -9,7 +9,6 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             @if ($errors->any())
-                dd($errors);
                 <div class="alert alert-danger">
                     <ul>
                         @foreach ($errors->all() as $error)
@@ -42,6 +41,14 @@
                             <div class="form-group">
                                 <label for="phone">Kapasitas</label>
                                 <input type="number" name="capacity" class="form-control">
+                            </div>
+                           <div class="form-group">
+                                <label for="phone">Total Room</label>
+                                <input type="number" name="total_room" class="form-control">
+                            </div>
+                           <div class="form-group">
+                                <label for="phone">Available Room</label>
+                                <input type="number" name="available_room" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="phone">Gambar (opsional)</label>
