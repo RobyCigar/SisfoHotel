@@ -7,15 +7,23 @@ Sisfo hotel adalah aplikasi berbasis web menggunakan framework laravel yang berf
 - Bootstrap
 - Laravel
 - Midtrans
-- AWS S3, RDS, EC2
+- AWS S3
+
+## Fitur
+- Payment Integration Midtrans
+- Authentication(Login, Register)
+- Multi Authentication(Admin, Customer)
+- Dashboard
+- CRUD
+- Search
+- Pagination
+- etc.
 
 ## Dibuat oleh:
-- 20.02.0607 Rabih Utomo
+- Rabih Utomo
 
 ## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Thank you for considering contributing to the SisfoHotel framework! The contribution guide can be found in the [this site](https://laravel.com/docs/contributions).
 
 ## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Bebas copas
